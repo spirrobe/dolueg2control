@@ -10,8 +10,20 @@ First a word about the general procedure for our pipeline from stationdata to da
 
 
 ## Meaning of columns
-This means dataflow is checked at three points, which is then listed as in the example below, where each check serves to understand at which stage something might have gone wrong.
-![Example of dataflow control](https://raw.githubusercontent.com/spirrobe/dolueg2control/master/control.png "Example of dataflow control")
+This means dataflow is checked at three points, which is then listed as in the example below, where each check serves to understand at which stage something might have gone wrong. Ideally, control should look something like this where some intermittent codes may be a bit outdated but other data are current
+![Example of mixed dataflow control](https://raw.githubusercontent.com/spirrobe/dolueg2control/master/control_good.png "Example of good dataflow control")
+Codes that are outdated in the database are intermittent codes only (like cloud height as there is no cloud height without clouds or backscatter as the signal may be too weak) 
+
+Alternatively mixed dataflow might look like this: 
+![Example of mixed dataflow control](https://raw.githubusercontent.com/spirrobe/dolueg2control/master/control_mixed.png "Example of mixed dataflow control")
+Some datafiles are missing (with respect to information from the calfile) and are therefore likely missing from the database. One station has no connection at the moment. Others have intermittent codes or are updated.
+
+
+If control is outdated, tableheaders are colored (likely in addition to columnes
+![Example of bad dataflow and outdated control](https://raw.githubusercontent.com/spirrobe/dolueg2control/master/control.png "Example of bad dataflow control")
+
+
+
 
 If any of the checkpoints/column are colored yellow-black striped, this means a warning, i.e. something did not work once and can work the next time. Possibly internet connectivity of a station was lost or similar. This might resolve itself the next day, or not.
 If not, the checkpoint/column turns red-black striped. This means something has gone wrong for too long and likely manual fixing is requiring.
@@ -92,3 +104,6 @@ control("outputfile.php",
         )
 
 ```
+# implementation in dolueg2page
+Implementation only involves moving the created file (saved as .php) to the folder "control" in dolueg2page. All files therein are included automatically. This should be done as often as you require updated information, e.g. every 15 minutes.
+
