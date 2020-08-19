@@ -56,9 +56,19 @@ CODE1, CODE2 -> The relevant entries for the control in this example (in reality
 Control relies on these calfiles to figure out where and what to check. Changes must be made to adjust to your situation.
 
 # control.py
-Some changes are needed to the code in this repository
+Some changes are needed to the code in this repository. 
 
 control.py can be found in this repository as well as our calfile reader read_cal2.py
+output of control.py is a text file containing html that is preferably saved with the extension .php for easy inclusion in [dolueg2page](https://github.com/spirrobe/dolueg2page)
+
+Mandatory input to contol.py
+- outfile -> where the resulting file should be written
+- caldir -> where to find the calibrationfile, can be a folder with calfiles or a single calfile
+
+Several options are available to control the behaviour of what additional information is added in the table:
+- levels -> a list of two numbers, deciding which amount in hours is consided good (less than first number), suspicious (between the two), bad (larger than second)
+- calfilepattern -> pass in a calfilepattern in case you only want to match some that are present in the caldir directory
+- allowintermittent -> some measurements are not always available like the cloud height and this should be reflected in the information shown on hover
 
 read_cal2.py has no dependencies outside the standard library
 control.py depends on:
@@ -70,4 +80,15 @@ control.py depends on:
 Since the last two Python file are rather specific to how our database is organised, they are not provided here. If you are interested, contact us here.
 
 
+# Automatisation
+Automatisation should be simply done with your current task automatisation (be it crontab or something else). Create a file containing the import and call to control
+```
+control("outputfile.php",
+        calfile,
+        # which amount in hours is considered to be okay (up to first number)
+        # which amount in hours is suspicious/warning (between first and second number)
+        # which amount in hours is bad/red (greater than second number)
+        levels=[13, 25], 
+        )
 
+```
