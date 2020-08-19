@@ -1,7 +1,7 @@
 # dolueg2control
-Control of dataflow for dolueg
+Control of dataflow for dolueg2
 
-This will depend a lot on your particular solution of data storage. 
+This will depend a lot on your particular solution of data storage. We provided some files and a bit of help here. Given the various possibilites of storing data in different form, no single fit-all solution can be provided.
 
 First a word about the general procedure for our pipeline from stationdata to database in relation to the control:
 1. We collect data with Campbell Scientifics Loggernet, i.e. Status Monitor and store them into "loggerfiles"
@@ -27,7 +27,7 @@ All of this information helps to find problems and is vital to know where to sta
 This can mean that the connectivity to the webserver is broken, or something is amiss with the computer/process creating the control (think change in code/password for database access or similar). This largely depends on your dataflow solution and thus no advice for fixing can be given here.
 
 
-# calfiles
+# calfiles and read_cal2
 Calfiles are rather simplistic textfiles with a fixed structure. Yet they allow scaling of data, change of columns for a timeperiod or completely and in the most advanced case the application of whole functions on data as they are evaluated by a programming language. Suffice to say they and the programm to apply would need another lengthy explanation that falls outside the scope here. Instead we give a short example of how one looks and explain what it is used for.
 ```
 ID       = ID of station (can be duplicate of station)
@@ -55,10 +55,19 @@ CODE1, CODE2 -> The relevant entries for the control in this example (in reality
 
 Control relies on these calfiles to figure out where and what to check. Changes must be made to adjust to your situation.
 
-# control
+# control.py
+Some changes are needed to the code in this repository
 
+control.py can be found in this repository as well as our calfile reader read_cal2.py
 
+read_cal2.py has no dependencies outside the standard library
+control.py depends on:
+- read_cal2 -> the provided reader for the cal2 files
+- read_datafile, i.e. a datafile reader (which depends on the format of your datafiles; if you do have Campbell Scientific files have a look at [our Campbell Scientific Reader Repository](https://github.com/spirrobe/campbell)
+- getmeta -> a Python program that gets the related meta informaton of one database code from our SQL database (needed only to check if the time-series is still meant to be running; so only the status is checked). This dependency can be removed if all codes should be checked regardless
+- newestrecord -> a Python programm that connects to a SQL database (or your specific solution) and gets the newest storest record of one database code
 
+Since the last two Python file are rather specific to how our database is organised, they are not provided here. If you are interested, contact us here.
 
 
 
