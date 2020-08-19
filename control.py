@@ -10,18 +10,12 @@
 def control(outfile,  # the name of the file to be produced
             # dbdir, # the database we check
             caldir,  # where we find the calibration files
-            # pass the database? if not in calfile it should be here
-            db=None,
-            # if you want to have a specific header
-            header=None,
             # the numbers in hours that correspond to warning and bad levels, colors are set in the css on the page
             levels=[20, 45],
             # the calfile in case the directory contains several and only
-            # one is relevant
-            calfile='',
+            # one/a pattern is relevant
+            calfilepattern='',
             allowintermittent=False,
-            extdatafile='',
-            mixeddatatype=True,
             quiet=True,
             **kwargs
             ):
@@ -44,7 +38,7 @@ def control(outfile,  # the name of the file to be produced
         calfile = os.path.basename(caldir)
         caldir = os.path.dirname(caldir)
 
-    calfiles = [i for i in os.scandir(caldir) if calfile in i and calfilext in i]
+    calfiles = [i for i in os.scandir(caldir) if calfilepattern in i and calfilext in i]
 
     if not calfiles:
         if not quiet:
@@ -53,11 +47,10 @@ def control(outfile,  # the name of the file to be produced
 
     calfiles = sorted(calfiles)
 
-    if header is None:
-        header = linesep+tab+tab
-        header += '<table BORDER="0" CELLPADDING="0" CELLSPACING="0" >'
-        header += linesep+tab+tab+tab+'<tr BGCOLOR="#FFFFFF" COLSPAN="2">'
-        header += linesep+tab+tab+tab+tab+'<td ALIGN="CENTER">'
+    header = linesep+tab+tab
+    header += '<table BORDER="0" CELLPADDING="0" CELLSPACING="0" >'
+    header += linesep+tab+tab+tab+'<tr BGCOLOR="#FFFFFF" COLSPAN="2">'
+    header += linesep+tab+tab+tab+tab+'<td ALIGN="CENTER">'
 
     if len(levels) > 2:
         levels = levels[:2]
