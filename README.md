@@ -1,5 +1,5 @@
 # dolueg2control
-Control of dataflow for dolueg2
+Control of dataflow for dolueg2, linked to [dolueg2page](https://github.com/spirrobe/dolueg2page/ "dolueg2page") and [dolueg2page](https://github.com/spirrobe/dolueg2figures/ "dolueg2figures")
 
 This will depend a lot on your particular solution of data storage. We provided some files and a bit of help here. Given the various possibilites of storing data in different form, no single fit-all solution can be provided.
 
